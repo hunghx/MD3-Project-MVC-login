@@ -2,8 +2,11 @@ package rikkei.academy.view;
 
 import rikkei.academy.config.Config;
 import rikkei.academy.controller.UserController;
+import rikkei.academy.dto.request.SignInDTO;
 import rikkei.academy.dto.request.SignUpDTO;
 import rikkei.academy.dto.response.ResponseMessage;
+import rikkei.academy.model.Role;
+import rikkei.academy.model.RoleName;
 import rikkei.academy.model.User;
 
 import java.util.HashSet;
@@ -13,6 +16,7 @@ import java.util.Set;
 public class UserView {
     UserController userController = new UserController();
     List<User> userList = userController.getListUser();
+
     public void formRegister() {
         System.out.println("size -->"+userList.size());
         int id = 0;
@@ -67,7 +71,21 @@ public class UserView {
 
     }
     public  void formLogin(){
-        System.out.println("Hàm Login!");
+        System.out.println("--------Login!---------");
+        System.out.println("Enter Username");
+        String username = Config.scanner().nextLine();
+        System.out.println("Enter Password");
+        String password = Config.scanner().nextLine();
+        SignInDTO sign = new SignInDTO(username,password);
+        ResponseMessage message = userController.login(sign);
+        if (message.getMessage().equals("Login Success")){
+            // chuyển để trang chủ
+            System.out.println("helo , welcome to my shop");
+        }else {
+            System.err.println("Incorrect username or password, please try again");
+            formLogin();
+        }
+
         System.out.println("Enter back to return Navbar: ");
         String back = Config.scanner().nextLine();
         if(back.equalsIgnoreCase("back")){

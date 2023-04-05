@@ -4,6 +4,7 @@ import rikkei.academy.config.Config;
 import rikkei.academy.model.User;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class UserServiceIMPL implements IUserService{
@@ -47,5 +48,18 @@ public class UserServiceIMPL implements IUserService{
             }
         }
         return false;
+    }
+    public boolean checkLogin(String username,String password){
+        List<User> list = new Config<User>().readFromFile(Config.PATH_USER_LOGIN);
+        for (User user:userList
+             ) {
+            if (user.getUsername().equals(username)&& user.getPassword().equals(password)){
+                list.add(user);
+             new Config().writeToFile(Config.PATH_USER_LOGIN,list);
+             return true;
+            }
+        }
+        return false;
+
     }
 }

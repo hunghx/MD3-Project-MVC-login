@@ -12,15 +12,20 @@ public class Config<T> {
     }
     public static final String PATH_CATEGORY = "src/rikkei/academy/database/category.txt";
     public static final String PATH_USER = "src/rikkei/academy/database/user.txt";
+    public static final String PATH_USER_LOGIN = "E:\\JAVACORE\\Thread\\MD3-Register-Role-JV11\\src\\rikkei\\academy\\database\\user-priciple.txt";
     //Phương thức đọc file
     public  List<T> readFromFile(String pathFile)  {
         List<T> tList = new ArrayList<>();
         try {
-            FileInputStream fileInputStream = new FileInputStream(pathFile);
-            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-            tList = (List<T>) objectInputStream.readObject();
-            fileInputStream.close();
-            objectInputStream.close();
+            File file = new File(pathFile);
+            if (file.exists()) {
+                FileInputStream fileInputStream = new FileInputStream(file);
+                ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+                tList = (List<T>) objectInputStream.readObject();
+                fileInputStream.close();
+                objectInputStream.close();
+            }
+
         } catch (FileNotFoundException f){
             System.err.println("File not found!");
         } catch (IOException i){
